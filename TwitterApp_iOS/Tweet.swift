@@ -11,7 +11,7 @@ import UIKit
 class Tweet {
     let ID: String
     let text: String
-    let retweetCount: String?
+    var retweetCount: String?
     var favoriteCount: String?
     
     let user_name: String
@@ -20,8 +20,8 @@ class Tweet {
     let user_location: String
     let user_URL: String?
     let user_imageURL: String
-    let user_followingCount: String?
-    let user_followerCount: String?
+    var user_followingCount: String?
+    var user_followerCount: String?
     var user_bannerImageURL: String?
     var user_image: UIImage?
     var user_bannerImage: UIImage?
@@ -48,6 +48,9 @@ class Tweet {
 
         let retweetCount = jsonDictionary["retweet_count"] as Int
         self.retweetCount = "\(retweetCount)"
+        
+        let favoriteCount = jsonDictionary["favorite_count"] as Int
+        self.favoriteCount = "\(favoriteCount)"
 
         let entities = userDictionary["entities"] as [String: AnyObject]
         let urls = entities["url"] as [String: AnyObject]
@@ -55,5 +58,16 @@ class Tweet {
         self.user_URL = urlsArray[0]["display_url"] as String?
 
     }
+    
+    func updateWithInfo(jsonDictionary: [String: AnyObject]) {
+        let retweetCount = jsonDictionary["retweet_count"] as Int
+        self.retweetCount = "\(retweetCount)"
+        
+        let favoriteCount = jsonDictionary["favorite_count"] as Int
+        self.favoriteCount = "\(favoriteCount)"
+        
+        
+    }
+    
 
 }

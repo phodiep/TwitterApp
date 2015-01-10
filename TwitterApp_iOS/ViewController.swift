@@ -42,6 +42,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
 
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -59,8 +60,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.usernameLabel.text = tweet.user_name
         cell.tweetLabel.text = tweet.text
         cell.screennameLabel.text = "@\(tweet.user_screenName)"
-        cell.retweetLabel.text = tweet.retweetCount
-        cell.favoriteLabel.text = tweet.favoriteCount
+        cell.retweetLabel.text = "\(tweet.retweetCount!) retweets"
+        cell.favoriteLabel.text = "\(tweet.favoriteCount!) favorited"
 
         if tweet.user_image == nil {
             self.networkController.fetchImage(tweet, completionHandler: { (image) -> () in
@@ -74,9 +75,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.networkController = self.networkController
         
         return cell
-        
-        
     }
-
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("DETAIL_VC") as DetailViewController
+        
+        detailVC.networkController = self.networkController
+        detailVC.tweet = tweets[indexPath.row]
+        
+        
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
 }
 
