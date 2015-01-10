@@ -13,6 +13,15 @@
 		1D6011701A60C56300CB1689 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D60116F1A60C56300CB1689 /* Images.xcassets */; };
 		1D6011731A60C56300CB1689 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6011711A60C56300CB1689 /* LaunchScreen.xib */; };
 		1D60117F1A60C56300CB1689 /* TwitterApp_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D60117E1A60C56300CB1689 /* TwitterApp_iOSTests.swift */; };
+		1D60118C1A60C74B00CB1689 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D60118B1A60C74B00CB1689 /* Tweet.swift */; };
+		1D6011901A60CB1000CB1689 /* tweet.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D60118F1A60CB1000CB1689 /* tweet.json */; };
+		1D6011921A60D15100CB1689 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6011911A60D15100CB1689 /* DetailViewController.swift */; };
+		1D6011941A60D17100CB1689 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6011931A60D17100CB1689 /* UserViewController.swift */; };
+		1D6011971A60D47E00CB1689 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6011951A60D47E00CB1689 /* TweetCell.swift */; };
+		1D6011981A60D47E00CB1689 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6011961A60D47E00CB1689 /* TweetCell.xib */; };
+		1D60119A1A60DC1600CB1689 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6011991A60DC1600CB1689 /* NetworkController.swift */; };
+		1D60119C1A60E04B00CB1689 /* jsonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D60119B1A60E04B00CB1689 /* jsonHandler.swift */; };
+		1D60E0B61A60F81200E87E88 /* CF_logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1D60E0B51A60F81200E87E88 /* CF_logo.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +45,15 @@
 		1D6011781A60C56300CB1689 /* TwitterApp_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwitterApp_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D60117D1A60C56300CB1689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D60117E1A60C56300CB1689 /* TwitterApp_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterApp_iOSTests.swift; sourceTree = "<group>"; };
+		1D60118B1A60C74B00CB1689 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
+		1D60118F1A60CB1000CB1689 /* tweet.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tweet.json; sourceTree = "<group>"; };
+		1D6011911A60D15100CB1689 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		1D6011931A60D17100CB1689 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		1D6011951A60D47E00CB1689 /* TweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
+		1D6011961A60D47E00CB1689 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
+		1D6011991A60DC1600CB1689 /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
+		1D60119B1A60E04B00CB1689 /* jsonHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = jsonHandler.swift; sourceTree = "<group>"; };
+		1D60E0B51A60F81200E87E88 /* CF_logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = CF_logo.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,10 +96,10 @@
 			isa = PBXGroup;
 			children = (
 				1D6011681A60C56300CB1689 /* AppDelegate.swift */,
-				1D60116A1A60C56300CB1689 /* ViewController.swift */,
-				1D60116C1A60C56300CB1689 /* Main.storyboard */,
+				1D6011891A60C6ED00CB1689 /* Models */,
+				1D60118A1A60C6F800CB1689 /* Views */,
+				1D6011881A60C6DD00CB1689 /* Controllers */,
 				1D60116F1A60C56300CB1689 /* Images.xcassets */,
-				1D6011711A60C56300CB1689 /* LaunchScreen.xib */,
 				1D6011661A60C56300CB1689 /* Supporting Files */,
 			);
 			path = TwitterApp_iOS;
@@ -91,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6011671A60C56300CB1689 /* Info.plist */,
+				1D60E0B51A60F81200E87E88 /* CF_logo.jpg */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -110,6 +129,38 @@
 				1D60117D1A60C56300CB1689 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1D6011881A60C6DD00CB1689 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1D60116A1A60C56300CB1689 /* ViewController.swift */,
+				1D60119B1A60E04B00CB1689 /* jsonHandler.swift */,
+				1D6011911A60D15100CB1689 /* DetailViewController.swift */,
+				1D6011931A60D17100CB1689 /* UserViewController.swift */,
+				1D6011991A60DC1600CB1689 /* NetworkController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		1D6011891A60C6ED00CB1689 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1D60118B1A60C74B00CB1689 /* Tweet.swift */,
+				1D60118F1A60CB1000CB1689 /* tweet.json */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		1D60118A1A60C6F800CB1689 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1D60116C1A60C56300CB1689 /* Main.storyboard */,
+				1D6011711A60C56300CB1689 /* LaunchScreen.xib */,
+				1D6011951A60D47E00CB1689 /* TweetCell.swift */,
+				1D6011961A60D47E00CB1689 /* TweetCell.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,8 +244,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60116E1A60C56300CB1689 /* Main.storyboard in Resources */,
+				1D6011981A60D47E00CB1689 /* TweetCell.xib in Resources */,
 				1D6011731A60C56300CB1689 /* LaunchScreen.xib in Resources */,
 				1D6011701A60C56300CB1689 /* Images.xcassets in Resources */,
+				1D6011901A60CB1000CB1689 /* tweet.json in Resources */,
+				1D60E0B61A60F81200E87E88 /* CF_logo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,8 +266,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D60119A1A60DC1600CB1689 /* NetworkController.swift in Sources */,
+				1D6011971A60D47E00CB1689 /* TweetCell.swift in Sources */,
+				1D6011941A60D17100CB1689 /* UserViewController.swift in Sources */,
+				1D60118C1A60C74B00CB1689 /* Tweet.swift in Sources */,
+				1D6011921A60D15100CB1689 /* DetailViewController.swift in Sources */,
 				1D60116B1A60C56300CB1689 /* ViewController.swift in Sources */,
 				1D6011691A60C56300CB1689 /* AppDelegate.swift in Sources */,
+				1D60119C1A60E04B00CB1689 /* jsonHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,7 +397,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TwitterApp_iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -349,7 +409,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TwitterApp_iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -409,6 +469,7 @@
 				1D6011841A60C56300CB1689 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1D6011851A60C56300CB1689 /* Build configuration list for PBXNativeTarget "TwitterApp_iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +478,7 @@
 				1D6011871A60C56300CB1689 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
