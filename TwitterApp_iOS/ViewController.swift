@@ -38,6 +38,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     println(error)
                 }
             })
+        } else {
+            self.tableView.reloadData()
         }
         
     }

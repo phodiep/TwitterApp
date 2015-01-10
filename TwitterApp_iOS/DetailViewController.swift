@@ -27,10 +27,8 @@ class DetailViewController: UIViewController {
         
         self.networkController.fetchTweet(tweet, completionHandler: { (infoDictionary, error) -> () in
         
-            
             if error == nil {
                 self.tweet.updateWithInfo(infoDictionary!)
-//                let tweet = Tweet(infoDictionary!)
                 
                 self.usernameLabel.text = self.tweet.user_name
                 self.tweetLabel.text = self.tweet.text
@@ -46,27 +44,25 @@ class DetailViewController: UIViewController {
                 } else {
                     self.imageButton.setImage(self.tweet.user_image, forState: .Normal)
                 }
-                
-                
-                
             }
-            
-            
-            
-            
         })
-        
-        
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
     }
     
     @IBAction func imageButtonPressed(sender: UIButton) {
         
-        println("image button pressed")
+        let userVC = self.storyboard?.instantiateViewControllerWithIdentifier("USER_VC") as UserViewController
+        
+        userVC.networkController = self.networkController
+        userVC.tweetSelected = self.tweet
+        
+        self.navigationController?.pushViewController(userVC, animated: true)
+
+        
+        
     }
 }

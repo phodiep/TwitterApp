@@ -18,6 +18,7 @@ class Tweet {
     let user_screenName: String
     let user_ID: String
     let user_location: String
+    let user_description: String
     let user_URL: String?
     let user_imageURL: String
     var user_followingCount: String?
@@ -40,6 +41,8 @@ class Tweet {
 
         self.user_imageURL = userDictionary["profile_image_url"] as String
         
+        self.user_description = userDictionary["description"] as String
+        
         let followerCount = userDictionary["followers_count"] as Int
         self.user_followerCount = "\(followerCount)"
         
@@ -52,11 +55,13 @@ class Tweet {
         let favoriteCount = jsonDictionary["favorite_count"] as Int
         self.favoriteCount = "\(favoriteCount)"
 
-        let entities = userDictionary["entities"] as [String: AnyObject]
-        let urls = entities["url"] as [String: AnyObject]
-        let urlsArray = urls["urls"] as [AnyObject]
-        self.user_URL = urlsArray[0]["display_url"] as String?
-
+        if let entitiesDictionary = userDictionary["entities"] as? [String: AnyObject] {
+            if let urlsDictionary = entitiesDictionary["url"] as? [String: AnyObject] {
+                if let urlsArray = urlsDictionary["urls"] as? [AnyObject] {
+                    self.user_URL = urlsArray[0]["display_url"] as String?
+                }
+            }
+        }
     }
     
     func updateWithInfo(jsonDictionary: [String: AnyObject]) {

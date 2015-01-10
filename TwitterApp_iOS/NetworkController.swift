@@ -114,7 +114,22 @@ class NetworkContoller {
             })
         }
     }
-    
+
+    func fetchBannerImage(tweet: Tweet, completionHandler: (UIImage?) -> () ) {
+        
+        if let imageURL = NSURL(string: tweet.user_bannerImageURL!) {
+            self.imageQueue.addOperationWithBlock({ () -> Void in
+                if let imageData = NSData(contentsOfURL: imageURL) {
+                    let image = UIImage(data: imageData)
+                    tweet.user_image = image
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        completionHandler(image)
+                    })
+                }
+            })
+        }
+    }
+
     
     func fetchUserBannerURL(tweet: Tweet, completionHandler: (String?, String?) -> ()) {
         let userBackgroundImageURL = "\(self.twitterMainURL)users/profile_banner.json?user_id=\(tweet.user_ID)"
