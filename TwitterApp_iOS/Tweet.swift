@@ -13,6 +13,8 @@ class Tweet {
     let text: String
     var retweetCount: String?
     var favoriteCount: String?
+    var replyToUserID: String?
+    var retweeted: Bool?
     
     let user_name: String
     let user_screenName: String
@@ -23,7 +25,8 @@ class Tweet {
     let user_imageURL: String
     var user_followingCount: String?
     var user_followerCount: String?
-    var user_bannerImageURL: String?
+
+    let user_bannerImageURL: String
     var user_image: UIImage?
     var user_bannerImage: UIImage?
 
@@ -32,12 +35,15 @@ class Tweet {
 
         self.ID = jsonDictionary["id_str"] as String
         self.text = jsonDictionary["text"] as String
-
+//        println(jsonDictionary)
         let userDictionary = jsonDictionary["user"] as [String: AnyObject]
         self.user_name = userDictionary["name"] as String
         self.user_screenName = userDictionary["screen_name"] as String
         self.user_ID = userDictionary["id_str"] as String
         self.user_location = userDictionary["location"] as String
+        
+        let bannerImageURL = userDictionary["profile_banner_url"] as String
+        self.user_bannerImageURL = "\(bannerImageURL)/mobile"
 
         self.user_imageURL = userDictionary["profile_image_url"] as String
         
@@ -62,6 +68,19 @@ class Tweet {
                 }
             }
         }
+        
+        if let replyID = jsonDictionary["in_reply_to_status_id_str"] as? Int {
+            self.replyToUserID = "\(replyID)"
+        }
+        
+//        if let retweetStatus = jsonDictionary["retweeted_status"] as? [String: AnyObject] {
+//            
+//            print(retweetStatus["user"])
+//        } else {
+//            println("-")
+//        }
+        
+        
     }
     
     func updateWithInfo(jsonDictionary: [String: AnyObject]) {

@@ -64,21 +64,15 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         self.userImage.image = tweet.user_image!
                     }
                     
-                    //fetch user banner image if necessary
-                    if tweet.user_bannerImageURL == nil {
-                        self.networkController.fetchUserBannerURL(tweet, completionHandler: { (bannerURL, error) -> () in
-                            if error == nil {
-                                tweet.user_bannerImageURL = bannerURL
-                                
-                                self.networkController.fetchBannerImage(tweet, completionHandler: { (image) -> () in
-                                    tweet.user_bannerImage = image
-                                    self.bannerImage.image = tweet.user_bannerImage
-                                })
-                            }
+                    if tweet.user_bannerImage == nil {
+                        self.networkController.fetchBannerImage(tweet, completionHandler: { (image) -> () in
+                            tweet.user_bannerImage = image
+                            self.bannerImage.image = tweet.user_bannerImage
                         })
                     } else {
                         self.bannerImage.image = tweet.user_bannerImage
                     }
+                    
                     
                     self.tableView.reloadData()
                 } else {
