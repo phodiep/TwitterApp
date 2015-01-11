@@ -35,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D4834CC1A62234F00881670 /* Stack.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Stack.playground; sourceTree = "<group>"; };
 		1D6011631A60C56300CB1689 /* TwitterApp_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterApp_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6011671A60C56300CB1689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D6011681A60C56300CB1689 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 				1D6011881A60C6DD00CB1689 /* Controllers */,
 				1D60116F1A60C56300CB1689 /* Images.xcassets */,
 				1D6011661A60C56300CB1689 /* Supporting Files */,
+				1D4834CC1A62234F00881670 /* Stack.playground */,
 			);
 			path = TwitterApp_iOS;
 			sourceTree = "<group>";
