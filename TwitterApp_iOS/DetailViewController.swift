@@ -30,19 +30,19 @@ class DetailViewController: UIViewController {
             if error == nil {
                 self.tweet.updateWithInfo(infoDictionary!)
                 
-                self.usernameLabel.text = self.tweet.user_name
+                self.usernameLabel.text = self.tweet.user.name
                 self.tweetLabel.text = self.tweet.text
-                self.screennameLabel.text = "@\(self.tweet.user_screenName)"
+                self.screennameLabel.text = "@\(self.tweet.user.screenName)"
                 self.retweetLabel.text = "\(self.tweet.retweetCount!) retweets"
                 self.favoriteLabel.text = "\(self.tweet.favoriteCount!) favorited"
 
-                if self.tweet.user_image == nil {
-                    self.networkController.fetchImage(self.tweet.user_imageURL, completionHandler: { (image) -> () in
-                        self.tweet.user_image = image
-                        self.imageButton.setImage(self.tweet.user_image, forState: .Normal)
+                if self.tweet.user.image == nil {
+                    self.networkController.fetchImage(self.tweet.user.imageURL, completionHandler: { (image) -> () in
+                        self.tweet.user.image = image
+                        self.imageButton.setImage(self.tweet.user.image, forState: .Normal)
                     })
                 } else {
-                    self.imageButton.setImage(self.tweet.user_image, forState: .Normal)
+                    self.imageButton.setImage(self.tweet.user.image, forState: .Normal)
                 }
             }
         })

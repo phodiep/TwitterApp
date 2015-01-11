@@ -40,39 +40,39 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
         
         if tweets.isEmpty {
-            self.networkController.fetchUserTimeline(tweetSelected.user_ID, completionHandler: { (tweets, error) -> () in
+            self.networkController.fetchUserTimeline(tweetSelected.user.ID, completionHandler: { (tweets, error) -> () in
                 
                 if error == nil {
                     self.tweets = tweets!
                     let tweet = self.tweets[0]
                     
-                    self.usernameLabel.text = tweet.user_name
-                    self.screennameLabel.text = "@\(tweet.user_screenName)"
-                    self.descriptionLabel.text = tweet.user_description
-                    self.locationLabel.text = tweet.user_location
-                    self.urlLabel.text = tweet.user_URL
-                    self.followingLabel.text = "\(tweet.user_followingCount!) Following"
-                    self.followersLabel.text = "\(tweet.user_followerCount!) Followers"
+                    self.usernameLabel.text = tweet.user.name
+                    self.screennameLabel.text = "@\(tweet.user.screenName)"
+                    self.descriptionLabel.text = tweet.user.description
+                    self.locationLabel.text = tweet.user.location
+                    self.urlLabel.text = tweet.user.URL
+                    self.followingLabel.text = "\(tweet.user.followingCount!) Following"
+                    self.followersLabel.text = "\(tweet.user.followerCount!) Followers"
                     
                     //fetch user image if necessary
-                    if tweet.user_image == nil {
-                        self.networkController.fetchImage(tweet.user_imageURL, completionHandler: { (image) -> () in
-                            tweet.user_image = image
-                            self.userImage.image = tweet.user_image
+                    if tweet.user.image == nil {
+                        self.networkController.fetchImage(tweet.user.imageURL, completionHandler: { (image) -> () in
+                            tweet.user.image = image
+                            self.userImage.image = tweet.user.image
                         })
                     } else {
-                        self.userImage.image = tweet.user_image!
+                        self.userImage.image = tweet.user.image!
                     }
                     
-                    if tweet.user_bannerImage == nil {
-                        if let bannerImageURL = tweet.user_bannerImageURL {
-                            self.networkController.fetchImage(tweet.user_bannerImageURL!, completionHandler: { (image) -> () in
-                                tweet.user_bannerImage = image
-                                self.bannerImage.image = tweet.user_bannerImage
+                    if tweet.user.bannerImage == nil {
+                        if let bannerImageURL = tweet.user.bannerImageURL {
+                            self.networkController.fetchImage(tweet.user.bannerImageURL!, completionHandler: { (image) -> () in
+                                tweet.user.bannerImage = image
+                                self.bannerImage.image = tweet.user.bannerImage
                             })
                         }
                     } else {
-                        self.bannerImage.image = tweet.user_bannerImage
+                        self.bannerImage.image = tweet.user.bannerImage
                     }
                     
                     
@@ -101,9 +101,9 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL", forIndexPath: indexPath) as TweetCell
         let tweet = tweets[indexPath.row]
         
-        cell.usernameLabel.text = tweet.user_name
+        cell.usernameLabel.text = tweet.user.name
         cell.tweetLabel.text = tweet.text
-        cell.screennameLabel.text = "@\(tweet.user_screenName)"
+        cell.screennameLabel.text = "@\(tweet.user.screenName)"
         cell.retweetLabel.text = "\(tweet.retweetCount!) retweets"
         cell.favoriteLabel.text = "\(tweet.favoriteCount!) favorited"
         
@@ -136,13 +136,13 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             
             
-            if tweet.user_image == nil {
-                self.networkController.fetchImage(tweet.user_imageURL, completionHandler: { (image) -> () in
-                    tweet.user_image = image
+            if tweet.user.image == nil {
+                self.networkController.fetchImage(tweet.user.imageURL, completionHandler: { (image) -> () in
+                    tweet.user.image = image
                     self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                 })
             } else {
-                cell.imageButton.setBackgroundImage(tweet.user_image, forState: .Normal)
+                cell.imageButton.setBackgroundImage(tweet.user.image, forState: .Normal)
             }
         }
     

@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LPd-zo-8rN">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LPd-zo-8rN">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -29,8 +29,8 @@
                             <constraint firstItem="LPd-zo-8rN" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="F5o-Pu-Ild"/>
                             <constraint firstItem="LPd-zo-8rN" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="GEZ-Bc-emE"/>
                             <constraint firstItem="LPd-zo-8rN" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="NIo-at-51o"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="LPd-zo-8rN" secondAttribute="bottom" id="fgV-BB-Zm5"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="LPd-zo-8rN" secondAttribute="bottom" id="gLm-3n-qRR"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="LPd-zo-8rN" secondAttribute="bottom" constant="-49" id="fgV-BB-Zm5"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="LPd-zo-8rN" secondAttribute="bottom" constant="-49" id="gLm-3n-qRR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LPd-zo-8rN" secondAttribute="trailing" constant="-16" id="say-uW-xHv"/>
                         </constraints>
                         <variation key="default">

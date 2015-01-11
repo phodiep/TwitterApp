@@ -59,19 +59,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL", forIndexPath: indexPath) as TweetCell
         let tweet = tweets[indexPath.row]
         
-        cell.usernameLabel.text = tweet.user_name
+        cell.usernameLabel.text = tweet.user.name
         cell.tweetLabel.text = tweet.text
-        cell.screennameLabel.text = "@\(tweet.user_screenName)"
+        cell.screennameLabel.text = "@\(tweet.user.screenName)"
         cell.retweetLabel.text = "\(tweet.retweetCount!) retweets"
         cell.favoriteLabel.text = "\(tweet.favoriteCount!) favorited"
 
-        if tweet.user_image == nil {
-            self.networkController.fetchImage(tweet.user_imageURL, completionHandler: { (image) -> () in
-                tweet.user_image = image
+        if tweet.user.image == nil {
+            self.networkController.fetchImage(tweet.user.imageURL, completionHandler: { (image) -> () in
+                tweet.user.image = image
                 self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
             })
         } else {
-            cell.imageButton.setImage(tweet.user_image, forState: .Normal)            
+            cell.imageButton.setImage(tweet.user.image, forState: .Normal)
         }
         
         cell.networkController = self.networkController

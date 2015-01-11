@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D3A5CD81A62E5B60095CA06 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3A5CD71A62E5B60095CA06 /* User.swift */; };
 		1D6011691A60C56300CB1689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6011681A60C56300CB1689 /* AppDelegate.swift */; };
 		1D60116B1A60C56300CB1689 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D60116A1A60C56300CB1689 /* ViewController.swift */; };
 		1D60116E1A60C56300CB1689 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D60116C1A60C56300CB1689 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D3A5CD71A62E5B60095CA06 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1D4834CC1A62234F00881670 /* Stack.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Stack.playground; sourceTree = "<group>"; };
 		1D6011631A60C56300CB1689 /* TwitterApp_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterApp_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6011671A60C56300CB1689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			children = (
 				1D60118B1A60C74B00CB1689 /* Tweet.swift */,
 				1D60118F1A60CB1000CB1689 /* tweet.json */,
+				1D3A5CD71A62E5B60095CA06 /* User.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				1D6011941A60D17100CB1689 /* UserViewController.swift in Sources */,
 				1D60118C1A60C74B00CB1689 /* Tweet.swift in Sources */,
 				1D6011921A60D15100CB1689 /* DetailViewController.swift in Sources */,
+				1D3A5CD81A62E5B60095CA06 /* User.swift in Sources */,
 				1D60116B1A60C56300CB1689 /* ViewController.swift in Sources */,
 				1D6011691A60C56300CB1689 /* AppDelegate.swift in Sources */,
 				1D60119C1A60E04B00CB1689 /* jsonHandler.swift in Sources */,
