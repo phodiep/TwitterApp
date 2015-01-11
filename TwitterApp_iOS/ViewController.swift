@@ -10,7 +10,6 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    var tweets = [Tweet]()
     @IBOutlet var tableView: UITableView!
     var networkController = NetworkContoller()
     
@@ -21,6 +20,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
+        self.tableView.reloadData()
+        
         //dynamic cell height
         self.tableView.estimatedRowHeight = 150
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -29,19 +30,29 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
 
         //fetch home timeline
-        if tweets.isEmpty {
-            self.networkController.fetchHomeTimeline({ (tweets, error) -> () in
+        self.networkController.fetchHomeTimeline({ (tweets, error) -> () in
+            if error == nil {
+                self.networkController.tweets = tweets!
+                self.tableView.reloadData()
+            } else {
+                println(error)
+            }
+        })
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if !self.networkController.tweets.isEmpty {
+            let sinceID = self.networkController.tweets[0].ID as String
+            self.networkController.fetchHomeTimeline(sinceID, completionHandler: { (newTweets, error) -> () in
                 if error == nil {
-                    self.tweets = tweets!
+                    self.networkController.tweets = newTweets! + self.networkController.tweets
                     self.tableView.reloadData()
-                } else {
-                    println(error)
                 }
             })
-        } else {
-            self.tableView.reloadData()
-        }
         
+
+        }
     }
 
 
@@ -51,13 +62,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tweets.count
+        return self.networkController.tweets.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL", forIndexPath: indexPath) as TweetCell
-        let tweet = tweets[indexPath.row]
+        let tweet = self.networkController.tweets[indexPath.row]
         
         cell.usernameLabel.text = tweet.user.name
         cell.tweetLabel.text = tweet.text
@@ -83,7 +94,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("DETAIL_VC") as DetailViewController
         
         detailVC.networkController = self.networkController
-        detailVC.tweet = tweets[indexPath.row]
+        detailVC.tweet = self.networkController.tweets[indexPath.row]
         
         
         self.navigationController?.pushViewController(detailVC, animated: true)
