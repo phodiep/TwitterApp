@@ -13,6 +13,8 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var networkController: NetworkContoller!
     var tweetSelected: Tweet!
     var tweets = [Tweet]()
+    
+    var refreshControl: UIRefreshControl!
 
     @IBOutlet var tableView: UITableView!
     
@@ -27,6 +29,7 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet var followersLabel: UILabel!
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,55 +39,74 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.tableView.estimatedRowHeight = 150
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.backgroundColor = UIColor.grayColor()
+        self.refreshControl.addTarget(self, action: Selector("refreshTweets"), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(self.refreshControl)
+        
         // nibName: name of xib file; reuseIdentifier: identifier used for cell
         self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
         
-        if tweets.isEmpty {
-            self.networkController.fetchUserTimeline(tweetSelected.user.ID, completionHandler: { (tweets, error) -> () in
+        self.networkController.fetchUserTimeline(tweetSelected.user.ID, completionHandler: { (tweets, error) -> () in
+            
+            if error == nil {
+                self.tweets = tweets!
+                let tweet = self.tweets[0]
                 
-                if error == nil {
-                    self.tweets = tweets!
-                    let tweet = self.tweets[0]
-                    
-                    self.usernameLabel.text = tweet.user.name
-                    self.screennameLabel.text = "@\(tweet.user.screenName)"
-                    self.descriptionLabel.text = tweet.user.description
-                    self.locationLabel.text = tweet.user.location
-                    self.urlLabel.text = tweet.user.URL
-                    self.followingLabel.text = "\(tweet.user.followingCount!) Following"
-                    self.followersLabel.text = "\(tweet.user.followerCount!) Followers"
-                    
-                    //fetch user image if necessary
-                    if tweet.user.image == nil {
-                        self.networkController.fetchImage(tweet.user.imageURL, completionHandler: { (image) -> () in
-                            tweet.user.image = image
-                            self.userImage.image = tweet.user.image
-                        })
-                    } else {
-                        self.userImage.image = tweet.user.image!
-                    }
-                    
-                    if tweet.user.bannerImage == nil {
-                        if let bannerImageURL = tweet.user.bannerImageURL {
-                            self.networkController.fetchImage(tweet.user.bannerImageURL!, completionHandler: { (image) -> () in
-                                tweet.user.bannerImage = image
-                                self.bannerImage.image = tweet.user.bannerImage
-                            })
-                        }
-                    } else {
-                        self.bannerImage.image = tweet.user.bannerImage
-                    }
-                    
-                    
-                    self.tableView.reloadData()
+                self.usernameLabel.text = tweet.user.name
+                self.screennameLabel.text = "@\(tweet.user.screenName)"
+                self.descriptionLabel.text = tweet.user.description
+                self.locationLabel.text = tweet.user.location
+                self.urlLabel.text = tweet.user.URL
+                self.followingLabel.text = "\(tweet.user.followingCount!) Following"
+                self.followersLabel.text = "\(tweet.user.followerCount!) Followers"
+                
+                //fetch user image if necessary
+                if tweet.user.image == nil {
+                    self.networkController.fetchImage(tweet.user.imageURL, completionHandler: { (image) -> () in
+                        tweet.user.image = image
+                        self.userImage.image = tweet.user.image
+                    })
                 } else {
-                    println(error)
+                    self.userImage.image = tweet.user.image!
                 }
-            })
-        } else {
-            self.tableView.reloadData()
-        }
+                
+                if tweet.user.bannerImage == nil {
+                    if let bannerImageURL = tweet.user.bannerImageURL {
+                        self.networkController.fetchImage(tweet.user.bannerImageURL!, completionHandler: { (image) -> () in
+                            tweet.user.bannerImage = image
+                            self.bannerImage.image = tweet.user.bannerImage
+                        })
+                    }
+                } else {
+                    self.bannerImage.image = tweet.user.bannerImage
+                }
+                
+                
+                self.tableView.reloadData()
+            } else {
+                println(error)
+            }
+        })
+    }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.refreshTweets()
+    }
+    
+    func refreshTweets() {
+        let userID = tweets[0].user.ID as String
+        let sinceID = tweets[0].ID as String
+        
+        self.networkController.fetchUserTimeline(userID, sinceID: sinceID) { (newTweets, error) -> () in
+            if error == nil {
+                self.tweets = newTweets! + self.tweets
+                self.tableView.reloadData()
+            }
+        }
+        self.refreshControl.endRefreshing()
     }
 
     override func didReceiveMemoryWarning() {
