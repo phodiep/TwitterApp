@@ -13,8 +13,16 @@ class Tweet {
     let text: String
     var retweetCount: String?
     var favoriteCount: String?
-    var replyToUserID: String?
-    var retweeted: Bool?
+    
+    var reply_userID: String?
+    var reply_tweetID: String?
+    var reply_userImageURL: String?
+    var reply_userImage: UIImage?
+
+    var retweet_originalTweetID: String?
+    var retweet_userID: String?
+    var retweet_userImageURL: String?
+    var retweet_userImage: UIImage?
     
     let user_name: String
     let user_screenName: String
@@ -26,7 +34,7 @@ class Tweet {
     var user_followingCount: String?
     var user_followerCount: String?
 
-    let user_bannerImageURL: String
+    let user_bannerImageURL: String?
     var user_image: UIImage?
     var user_bannerImage: UIImage?
 
@@ -42,8 +50,9 @@ class Tweet {
         self.user_ID = userDictionary["id_str"] as String
         self.user_location = userDictionary["location"] as String
         
-        let bannerImageURL = userDictionary["profile_banner_url"] as String
-        self.user_bannerImageURL = "\(bannerImageURL)/mobile"
+        if let bannerImageURL = userDictionary["profile_banner_url"] as? String {
+            self.user_bannerImageURL = "\(bannerImageURL)/mobile"
+        }
 
         self.user_imageURL = userDictionary["profile_image_url"] as String
         
@@ -69,16 +78,18 @@ class Tweet {
             }
         }
         
-        if let replyID = jsonDictionary["in_reply_to_status_id_str"] as? Int {
-            self.replyToUserID = "\(replyID)"
+        if let replyID = jsonDictionary["in_reply_to_user_id_str"] as? String {
+            self.reply_userID = "\(replyID)"
+            self.reply_tweetID = jsonDictionary["in_reply_to_status_id_str"] as? String
         }
         
-//        if let retweetStatus = jsonDictionary["retweeted_status"] as? [String: AnyObject] {
-//            
-//            print(retweetStatus["user"])
-//        } else {
-//            println("-")
-//        }
+        if let retweetStatus = jsonDictionary["retweeted_status"] as? [String: AnyObject] {
+            if let retweetUser = retweetStatus["user"] as? [String: AnyObject] {
+                self.retweet_userID = retweetUser["id_str"] as String?
+                self.retweet_userImageURL = retweetUser["profile_image_url"] as String?
+                self.retweet_originalTweetID = retweetStatus["id_str"] as String?
+            }
+        }
         
         
     }

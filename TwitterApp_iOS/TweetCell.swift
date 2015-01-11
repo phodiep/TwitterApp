@@ -30,8 +30,8 @@ class TweetCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @IBAction func imageButtonPressed(sender: UIButton) {
-        println("image button pressed")
-        
-    }
+//    @IBAction func imageButtonPressed(sender: UIButton) {
+//        println("image button pressed")
+//        
+//    }
 }

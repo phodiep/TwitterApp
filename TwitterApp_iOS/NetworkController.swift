@@ -73,6 +73,30 @@ class NetworkContoller {
         }
     }
     
+    func fetchUser(userID: String, completionHandler: ( [String: AnyObject]?, String?) -> () ) {
+        let userURL = "\(self.twitterMainURL)users/show.json?id=\(userID)"
+        
+        if let twitterRequest = self.fetchFromURL(userURL) {
+            twitterRequest.performRequestWithHandler({ (jsonData, URLResponse, error) -> Void in
+                var errorString: String?
+                var userDictionary: [String: AnyObject]?
+                
+                switch URLResponse.statusCode {
+                case 200...299:
+                    userDictionary = serializeJson_singleTweet(jsonData)
+                case 300...599:
+                    errorString = "\(String(URLResponse.statusCode)) error ... \(error)"
+                default:
+                    errorString = "default case"
+                }
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    completionHandler(userDictionary, errorString)
+                })
+            })
+        }
+        
+    }
     
     func fetchTweet(tweet: Tweet, completionHandler: ( [String: AnyObject]?, String?) -> () ) {
         // fetch response from url, if successful return jsonDictionary, else return error
@@ -83,6 +107,31 @@ class NetworkContoller {
                 var errorString: String?
                 var jsonDictionary: [String: AnyObject]?
 
+                switch URLResponse.statusCode {
+                case 200...299:
+                    jsonDictionary = serializeJson_singleTweet(jsonData)
+                case 300...599:
+                    errorString = "\(String(URLResponse.statusCode)) error ... \(error)"
+                default:
+                    errorString = "default case"
+                }
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    completionHandler(jsonDictionary, errorString)
+                })
+            })
+        }
+    }
+    
+    func fetchTweet(tweetID: String, completionHandler: ( [String: AnyObject]?, String?) -> () ) {
+        // fetch response from url, if successful return jsonDictionary, else return error
+        let tweetURL = "\(self.twitterMainURL)statuses/show.json?id=\(tweetID)"
+        
+        if let twitterRequest = self.fetchFromURL(tweetURL) {
+            twitterRequest.performRequestWithHandler({ (jsonData, URLResponse, error) -> Void in
+                var errorString: String?
+                var jsonDictionary: [String: AnyObject]?
+                
                 switch URLResponse.statusCode {
                 case 200...299:
                     jsonDictionary = serializeJson_singleTweet(jsonData)
@@ -113,8 +162,8 @@ class NetworkContoller {
     }
 
     
-    func fetchUserTimeline(tweet: Tweet, completionHandler: ([Tweet]?, String?) -> () ) {
-        let userTimelineURL = "\(self.twitterMainURL)statuses/user_timeline.json?user_id=\(tweet.user_ID)"
+    func fetchUserTimeline(userID: String, completionHandler: ([Tweet]?, String?) -> () ) {
+        let userTimelineURL = "\(self.twitterMainURL)statuses/user_timeline.json?user_id=\(userID)"
         
         if let twitterRequest = self.fetchFromURL(userTimelineURL) {
             twitterRequest.performRequestWithHandler({ (jsonData, URLResponse, error) -> Void in

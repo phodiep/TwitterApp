@@ -40,7 +40,7 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.tableView.registerNib(UINib(nibName: "TweetCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "TWEET_CELL")
         
         if tweets.isEmpty {
-            self.networkController.fetchUserTimeline(tweetSelected, completionHandler: { (tweets, error) -> () in
+            self.networkController.fetchUserTimeline(tweetSelected.user_ID, completionHandler: { (tweets, error) -> () in
                 
                 if error == nil {
                     self.tweets = tweets!
@@ -65,10 +65,12 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     }
                     
                     if tweet.user_bannerImage == nil {
-                        self.networkController.fetchImage(tweet.user_bannerImageURL, completionHandler: { (image) -> () in
-                            tweet.user_bannerImage = image
-                            self.bannerImage.image = tweet.user_bannerImage
-                        })
+                        if let bannerImageURL = tweet.user_bannerImageURL {
+                            self.networkController.fetchImage(tweet.user_bannerImageURL!, completionHandler: { (image) -> () in
+                                tweet.user_bannerImage = image
+                                self.bannerImage.image = tweet.user_bannerImage
+                            })
+                        }
                     } else {
                         self.bannerImage.image = tweet.user_bannerImage
                     }
@@ -105,18 +107,81 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.retweetLabel.text = "\(tweet.retweetCount!) retweets"
         cell.favoriteLabel.text = "\(tweet.favoriteCount!) favorited"
         
-        if tweet.user_image == nil {
-            self.networkController.fetchImage(tweet.user_imageURL, completionHandler: { (image) -> () in
-                tweet.user_image = image
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-            })
+        if tweet.reply_userID != nil {
+            if tweet.reply_userImage == nil {
+                self.networkController.fetchUser(tweet.reply_userID!, completionHandler: { (userDictionary, error) -> () in
+                    if error == nil {
+                        
+                        tweet.reply_userImageURL = userDictionary!["profile_image_url"] as? String
+                        self.networkController.fetchImage(tweet.reply_userImageURL!, completionHandler: { (image) -> () in
+                            tweet.reply_userImage = image as UIImage!
+                            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                            }
+                        )
+                    }
+                    
+                })
+            } else {
+                cell.imageButton.setBackgroundImage(tweet.reply_userImage, forState: .Normal)
+            }
+        } else if tweet.retweet_userID != nil {
+            if tweet.retweet_userImage == nil {
+                self.networkController.fetchImage(tweet.retweet_userImageURL!, completionHandler: { (image) -> () in
+                    tweet.retweet_userImage = image as UIImage!
+                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                })
+            } else {
+                cell.imageButton.setBackgroundImage(tweet.retweet_userImage, forState: .Normal)
+            }
         } else {
-            cell.imageButton.setImage(tweet.user_image, forState: .Normal)
+            
+            
+            if tweet.user_image == nil {
+                self.networkController.fetchImage(tweet.user_imageURL, completionHandler: { (image) -> () in
+                    tweet.user_image = image
+                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                })
+            } else {
+                cell.imageButton.setBackgroundImage(tweet.user_image, forState: .Normal)
+            }
         }
-        
+    
+    
         cell.networkController = self.networkController
         
         return cell
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var tweet: Tweet?
+
+        if self.tweets[indexPath.row].reply_tweetID != nil {
+            self.networkController.fetchTweet(self.tweets[indexPath.row].reply_tweetID!, completionHandler: { (jsonDictionary, error) -> () in
+                if error == nil {
+                    tweet = Tweet(jsonDictionary!)
+                    let detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("DETAIL_VC") as DetailViewController
+                    detailVC.networkController = self.networkController
+                    detailVC.tweet = tweet!
+                    self.navigationController?.pushViewController(detailVC, animated: true)
+                }
+            })
+        } else if self.tweets[indexPath.row].retweet_originalTweetID != nil {
+            self.networkController.fetchTweet(self.tweets[indexPath.row].retweet_originalTweetID!, completionHandler: { (jsonDictionary, error) -> () in
+                if error == nil {
+                    tweet = Tweet(jsonDictionary!)
+                    let detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("DETAIL_VC") as DetailViewController
+                    detailVC.networkController = self.networkController
+                    detailVC.tweet = tweet!
+                    self.navigationController?.pushViewController(detailVC, animated: true)
+                }
+            })
+        } else {
+            let detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("DETAIL_VC") as DetailViewController
+            detailVC.networkController = self.networkController
+            detailVC.tweet = self.tweets[indexPath.row]
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
+    
 
 }

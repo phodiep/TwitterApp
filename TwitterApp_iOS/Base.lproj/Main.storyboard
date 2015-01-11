@@ -66,7 +66,7 @@
                                     <constraint firstAttribute="height" constant="50" id="CeS-dX-Han"/>
                                     <constraint firstAttribute="width" constant="50" id="GFL-SS-Lq3"/>
                                 </constraints>
-                                <state key="normal" image="CF_logo.jpg">
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -293,7 +293,4 @@
             <point key="canvasLocation" x="306" y="465"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="CF_logo.jpg" width="225" height="225"/>
-    </resources>
 </document>

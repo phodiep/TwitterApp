@@ -89,5 +89,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
+    
 }
 
