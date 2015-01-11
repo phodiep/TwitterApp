@@ -16,7 +16,7 @@ class NetworkContoller {
     let twitterMainURL = "https://api.twitter.com/1.1/"
     var imageQueue = NSOperationQueue()
     
-    var tweets = [Tweet]()
+//    var tweets = [Tweet]()
     
     init() {
         

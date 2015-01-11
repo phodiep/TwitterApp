@@ -12,6 +12,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     @IBOutlet var tableView: UITableView!
     var networkController = NetworkContoller()
+
+    var tweets = [Tweet]()
     
     
     override func viewDidLoad() {
@@ -32,7 +34,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         //fetch home timeline
         self.networkController.fetchHomeTimeline({ (tweets, error) -> () in
             if error == nil {
-                self.networkController.tweets = tweets!
+                self.tweets = tweets!
                 self.tableView.reloadData()
             } else {
                 println(error)
@@ -42,11 +44,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if !self.networkController.tweets.isEmpty {
-            let sinceID = self.networkController.tweets[0].ID as String
+        if !self.tweets.isEmpty {
+            let sinceID = self.tweets[0].ID as String
             self.networkController.fetchHomeTimeline(sinceID, completionHandler: { (newTweets, error) -> () in
                 if error == nil {
-                    self.networkController.tweets = newTweets! + self.networkController.tweets
+                    self.tweets = newTweets! + self.tweets
                     self.tableView.reloadData()
                 }
             })
@@ -62,13 +64,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.networkController.tweets.count
+        return self.tweets.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL", forIndexPath: indexPath) as TweetCell
-        let tweet = self.networkController.tweets[indexPath.row]
+        let tweet = self.tweets[indexPath.row]
         
         cell.usernameLabel.text = tweet.user.name
         cell.tweetLabel.text = tweet.text
@@ -94,7 +96,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let detailVC = self.storyboard?.instantiateViewControllerWithIdentifier("DETAIL_VC") as DetailViewController
         
         detailVC.networkController = self.networkController
-        detailVC.tweet = self.networkController.tweets[indexPath.row]
+        detailVC.tweet = self.tweets[indexPath.row]
         
         
         self.navigationController?.pushViewController(detailVC, animated: true)
