@@ -54,10 +54,10 @@
             <objects>
                 <tabBarController id="gop-kG-GR4" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="d5g-tq-nnk">
+                    <tabBar key="tabBar" contentMode="scaleToFill" selectionIndicatorImage="Home" id="d5g-tq-nnk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.33445956760000001" green="0.72742624980000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="OdP-JX-edq" kind="relationship" relationship="viewControllers" id="r9Z-A3-oKm"/>
@@ -291,11 +291,11 @@
             </objects>
             <point key="canvasLocation" x="2462" y="461"/>
         </scene>
-        <!--Home-->
+        <!--Navigation Controller-->
         <scene sceneID="rHv-Lw-kxC">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="OdP-JX-edq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" id="7MJ-9G-0Zf"/>
+                    <tabBarItem key="tabBarItem" title="" id="7MJ-9G-0Zf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="FqR-nm-90o">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -315,4 +315,7 @@
             <point key="canvasLocation" x="306" y="465"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Home" width="30" height="30"/>
+    </resources>
 </document>
