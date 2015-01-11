@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var networkController = NetworkContoller()
 
     var tweets = [Tweet]()
+    var refreshControl: UIRefreshControl!
     
     
     override func viewDidLoad() {
@@ -22,8 +23,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        self.tableView.reloadData()
-        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.backgroundColor = UIColor.grayColor()
+        self.refreshControl.addTarget(self, action: Selector("refreshTweets"), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(self.refreshControl)
+
         //dynamic cell height
         self.tableView.estimatedRowHeight = 150
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -44,6 +48,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        self.refreshTweets()
+    }
+    
+    func refreshTweets() {
         if !self.tweets.isEmpty {
             let sinceID = self.tweets[0].ID as String
             self.networkController.fetchHomeTimeline(sinceID, completionHandler: { (newTweets, error) -> () in
@@ -53,8 +62,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
             })
         
-
         }
+        self.refreshControl.endRefreshing()
     }
 
 
