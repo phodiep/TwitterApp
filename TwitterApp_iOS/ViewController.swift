@@ -66,7 +66,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.favoriteLabel.text = "\(tweet.favoriteCount!) favorited"
 
         if tweet.user_image == nil {
-            self.networkController.fetchImage(tweet, completionHandler: { (image) -> () in
+            self.networkController.fetchImage(tweet.user_imageURL, completionHandler: { (image) -> () in
                 tweet.user_image = image
                 self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
             })

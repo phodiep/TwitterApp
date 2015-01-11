@@ -35,7 +35,7 @@ class Tweet {
 
         self.ID = jsonDictionary["id_str"] as String
         self.text = jsonDictionary["text"] as String
-//        println(jsonDictionary)
+
         let userDictionary = jsonDictionary["user"] as [String: AnyObject]
         self.user_name = userDictionary["name"] as String
         self.user_screenName = userDictionary["screen_name"] as String

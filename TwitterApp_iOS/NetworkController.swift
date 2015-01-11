@@ -99,35 +99,17 @@ class NetworkContoller {
         }
     }
     
-    
-    func fetchImage(tweet: Tweet, completionHandler: (UIImage?) -> () ) {
 
-        if let imageURL = NSURL(string: tweet.user_imageURL) {
-            self.imageQueue.addOperationWithBlock({ () -> Void in
-                if let imageData = NSData(contentsOfURL: imageURL) {
-                    let image = UIImage(data: imageData)
-                    tweet.user_image = image
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        completionHandler(image)
-                    })
-                }
-            })
-        }
-    }
-
-    func fetchBannerImage(tweet: Tweet, completionHandler: (UIImage?) -> () ) {
+    func fetchImage(imageURL: String, completionHandler: (UIImage?) -> () ) {
         
-        if let imageURL = NSURL(string: tweet.user_bannerImageURL) {
-            self.imageQueue.addOperationWithBlock({ () -> Void in
-                if let imageData = NSData(contentsOfURL: imageURL) {
-                    let image = UIImage(data: imageData)
-                    tweet.user_image = image
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        completionHandler(image)
-                    })
-                }
-            })
-        }
+        self.imageQueue.addOperationWithBlock({ () -> Void in
+            if let imageData = NSData(contentsOfURL: NSURL(string: imageURL)!) {
+                let image = UIImage(data: imageData)
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    completionHandler(image)
+                })
+            }
+        })
     }
 
     

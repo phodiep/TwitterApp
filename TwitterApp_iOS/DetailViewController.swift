@@ -37,7 +37,7 @@ class DetailViewController: UIViewController {
                 self.favoriteLabel.text = "\(self.tweet.favoriteCount!) favorited"
 
                 if self.tweet.user_image == nil {
-                    self.networkController.fetchImage(self.tweet, completionHandler: { (image) -> () in
+                    self.networkController.fetchImage(self.tweet.user_imageURL, completionHandler: { (image) -> () in
                         self.tweet.user_image = image
                         self.imageButton.setImage(self.tweet.user_image, forState: .Normal)
                     })
