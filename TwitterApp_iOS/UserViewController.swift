@@ -109,6 +109,19 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.refreshControl.endRefreshing()
     }
 
+    func loadOlderTweets() {
+        if !self.tweets.isEmpty {
+            let maxID = self.tweets.last!.ID as String
+            self.networkController.fetchHomeTimelineOlderTweets(maxID, completionHandler: { (newTweets, error) -> () in
+                if error == nil {
+                    self.tweets += newTweets!
+                    self.tableView.reloadData()
+                }
+            })
+        }
+    }
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
 
@@ -119,6 +132,11 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        if (indexPath.row == tweets.count - 1) {
+            loadOlderTweets()
+            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
         
         let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL", forIndexPath: indexPath) as TweetCell
         let tweet = tweets[indexPath.row]

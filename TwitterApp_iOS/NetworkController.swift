@@ -16,8 +16,6 @@ class NetworkContoller {
     let twitterMainURL = "https://api.twitter.com/1.1/"
     var imageQueue = NSOperationQueue()
     
-//    var tweets = [Tweet]()
-    
     init() {
         
     }
@@ -100,7 +98,34 @@ class NetworkContoller {
             })
         }
     }
-    
+
+    func fetchHomeTimelineOlderTweets(maxID: String, completionHandler: ([Tweet]?, String?) -> () ) {
+        // confirm account access, fetch response from url, if successful populate tweets array, else return error
+        let hometimelineURL = "\(self.twitterMainURL)statuses/home_timeline.json?max_id=\(maxID)"
+        
+        if let twitterRequest = self.fetchFromURL(hometimelineURL) {
+            var tweets = [Tweet]()
+            var errorString: String?
+            
+            twitterRequest.performRequestWithHandler({ (jsonData, URLResponse, error) -> Void in
+                
+                switch URLResponse.statusCode {
+                case 200...299:
+                    let jsonArray = serializeJson_multipleTweets(jsonData)
+                    tweets = parseJsonForTweets(jsonArray!)
+                case 300...599:
+                    errorString = "\(String(URLResponse.statusCode)) error ... \(error)"
+                default:
+                    errorString = "default case"
+                }
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    completionHandler(tweets, errorString)
+                })
+            })
+        }
+    }
+
 
     func fetchUser(userID: String, completionHandler: ( [String: AnyObject]?, String?) -> () ) {
         let userURL = "\(self.twitterMainURL)users/show.json?id=\(userID)"
