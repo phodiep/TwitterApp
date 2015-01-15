@@ -97,8 +97,14 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func refreshTweets() {
-        let userID = tweets[0].user.ID as String
-        let sinceID = tweets[0].ID as String
+        
+        var sinceID: String?
+        let userID = tweetSelected.user.ID as String
+        if !tweets.isEmpty {
+            sinceID = tweetSelected.ID as String
+        } else {
+            sinceID = nil
+        }
         
         self.networkController.fetchUserTimeline(userID, sinceID: sinceID) { (newTweets, error) -> () in
             if error == nil {
@@ -133,9 +139,10 @@ class UserViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if (indexPath.row == tweets.count - 1) {
+        if (indexPath.row >= tweets.count - 1) {
             loadOlderTweets()
-            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+//            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            return UITableViewCell()
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier("TWEET_CELL", forIndexPath: indexPath) as TweetCell

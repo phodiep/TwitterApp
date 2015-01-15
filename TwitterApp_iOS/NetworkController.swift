@@ -217,33 +217,40 @@ class NetworkContoller {
 
     
     func fetchUserTimeline(userID: String, completionHandler: ([Tweet]?, String?) -> () ) {
-        let userTimelineURL = "\(self.twitterMainURL)statuses/user_timeline.json?user_id=\(userID)"
-        
-        if let twitterRequest = self.fetchFromURL(userTimelineURL) {
-            twitterRequest.performRequestWithHandler({ (jsonData, URLResponse, error) -> Void in
-                var tweets: [Tweet]?
-                var errorString: String?
-                
-                switch URLResponse.statusCode {
-                case 200...299:
-                    let jsonArray = serializeJson_multipleTweets(jsonData)
-                    tweets = parseJsonForTweets(jsonArray!)
-                case 300...599:
-                    errorString = "\(String(URLResponse.statusCode)) error ... \(error)"
-                default:
-                    errorString = "default case"
-                }
-                
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                    completionHandler(tweets, errorString)
-                })
-            })
-        }
+//        let userTimelineURL = "\(self.twitterMainURL)statuses/user_timeline.json?user_id=\(userID)"
+//        
+//        if let twitterRequest = self.fetchFromURL(userTimelineURL) {
+//            twitterRequest.performRequestWithHandler({ (jsonData, URLResponse, error) -> Void in
+//                var tweets: [Tweet]?
+//                var errorString: String?
+//                
+//                switch URLResponse.statusCode {
+//                case 200...299:
+//                    let jsonArray = serializeJson_multipleTweets(jsonData)
+//                    tweets = parseJsonForTweets(jsonArray!)
+//                case 300...599:
+//                    errorString = "\(String(URLResponse.statusCode)) error ... \(error)"
+//                default:
+//                    errorString = "default case"
+//                }
+//                
+//                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+//                    completionHandler(tweets, errorString)
+//                })
+//            })
+//        }
+
+    self.fetchUserTimeline(userID, sinceID: nil, completionHandler: completionHandler)
     }
 
     func fetchUserTimeline(userID: String, sinceID: String?, completionHandler: ([Tweet]?, String?) -> () ) {
-        let userTimelineURL = "\(self.twitterMainURL)statuses/user_timeline.json?user_id=\(userID)&since_id=\(sinceID!)"
-        
+        var userTimelineURL: String
+        if sinceID == nil {
+            userTimelineURL = "\(self.twitterMainURL)statuses/user_timeline.json?user_id=\(userID)"
+        } else {
+            userTimelineURL = "\(self.twitterMainURL)statuses/user_timeline.json?user_id=\(userID)&since_id=\(sinceID!)"
+        }
+
         if let twitterRequest = self.fetchFromURL(userTimelineURL) {
             twitterRequest.performRequestWithHandler({ (jsonData, URLResponse, error) -> Void in
                 var tweets: [Tweet]?
